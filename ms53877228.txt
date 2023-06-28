@@ -1,0 +1,5 @@
+﻿{
+  "Description": "Domain ownership verification file for Microsoft 365 - place in the website root",
+  "Domain": "aisense.co.in",
+  "Id": "761200d9-a76f-4aae-b6d0-15fed7b97f61"
+}
