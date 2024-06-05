@@ -12,7 +12,9 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors());
+app.use(cors({
+  origin: ['https://aisense-website-beta.pages.dev', 'https://aisense.co.in']
+}));
 
 mongoose
   .connect(process.env.MONGO_URI, {
