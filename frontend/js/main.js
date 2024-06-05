@@ -2038,45 +2038,41 @@
     }
 
     /***** Submit form using AJAX *****/
-    function submitAJAXForm( _this ) {
+function submitAJAXForm(_this) {
+    var formObj = _this.parents('form'),
+        actionURL = formObj.attr('action'),
+        resultsObj = formObj.find('.form-results'),
+        redirectVal = formObj.find('[name="redirect"]').val();
 
-        var formObj     = _this.parents( 'form' ),
-            actionURL   = formObj.attr( 'action' ),
-            resultsObj  = formObj.find( '.form-results' ),
-            redirectVal = formObj.find( '[name="redirect"]' ).val();
-
-        if( actionURL != '' && actionURL != undefined ) {
-            _this.addClass( 'loading' );
-            $.ajax({
-                type: 'POST',
-                url: actionURL,
-                data: formObj.serialize(),
-                success: function ( result ) {
-                    console.log( result );
-                    _this.removeClass( 'loading' );
-                    if( redirectVal != '' && redirectVal != undefined ) {
-                        window.location.href = redirectVal;
-                    } else {
-                        if ( typeof ( result ) !== 'undefined' && result !== null ) {
-                            result = $.parseJSON( result );
-                        }
-                        formObj.find( 'input[type=text],input[type=email],input[type=tel],input[type=password],textarea' ).each( function () {
-                            $( this ).val('');
-                            $( this ).removeClass( 'error' );
-                        });
-                        formObj.find( '.g-recaptcha' ).removeClass( 'error' );
-                        formObj.find( 'input[type=checkbox],input[type=radio]' ).prop( 'checked', false );
-                        if( formObj.find( '.g-recaptcha' ).length > 0 ) {
-                            grecaptcha.reset();
-                        }
-                        formObj.find( 'input[name=action],input[name=g-recaptcha-response]' ).remove();
-                        resultsObj.removeClass( 'alert-success' ).removeClass( 'alert-danger' ).hide();
-                        resultsObj.addClass( result.alert ).html( result.message );
-                        resultsObj.removeClass( 'd-none' ).fadeIn( 'slow' ).delay( 4000 ).fadeOut( 'slow' );
+    if (actionURL) {
+        _this.addClass('loading');
+        $.ajax({
+            type: 'POST',
+            url: actionURL,
+            data: formObj.serialize(),
+            dataType: 'json',
+            success: function(result) {
+                console.log(result);
+                _this.removeClass('loading');
+                if (redirectVal) {
+                    window.location.href = redirectVal;
+                } else {
+                    formObj.find('input[type=text],input[type=email],input[type=tel],input[type=password],textarea, .g-recaptcha').val('').removeClass('error');
+                    formObj.find('input[type=checkbox],input[type=radio]').prop('checked', false);
+                    if (formObj.find('.g-recaptcha').length > 0) {
+                        grecaptcha.reset();
                     }
+                    formObj.find('input[name=action],input[name=g-recaptcha-response]').remove();
+                    resultsObj.removeClass('alert-success alert-danger d-none').addClass(result.alert).html(result.message).fadeIn('slow').delay(4000).fadeOut('slow');
                 }
-            });
-        }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log('An error occurred: ' + errorThrown);
+                _this.removeClass('loading');
+                resultsObj.removeClass('alert-success d-none').addClass('alert-danger').html('An error occurred: ' + errorThrown).fadeIn('slow').delay(4000).fadeOut('slow');
+            }
+        });
     }
+}
     
 })( jQuery );
