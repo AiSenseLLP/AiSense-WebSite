@@ -1,4 +1,6 @@
 const nodemailer = require("nodemailer");
+const dotenv = require("dotenv");
+dotenv.config();
 
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
@@ -38,9 +40,9 @@ const sendEmail = async ({ name, email, phone, message }) => {
             <p><span class="label">Email:</span> ${email}</p>
             <p><span class="label">Phone:</span> ${phone}</p>
             <p><span class="label">Message:</span><br>${message.replace(
-              /\n/g,
-              "<br>"
-            )}</p>
+      /\n/g,
+      "<br>"
+    )}</p>
           </div>
         </div>
       </body>
