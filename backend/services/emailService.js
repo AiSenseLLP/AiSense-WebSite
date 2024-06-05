@@ -15,7 +15,7 @@ const transporter = nodemailer.createTransport({
 
 const sendEmail = async ({ name, email, phone, message }) => {
   const mailOptions = {
-    from: `${name} <${email}>`,
+    from: `AiSense <form@aisense.co.in>`,
     to: process.env.RECEIVER_EMAIL,
     subject: "Contact form details",
     html: `
@@ -33,7 +33,7 @@ const sendEmail = async ({ name, email, phone, message }) => {
       <body>
         <div class="container">
           <div class="header">
-            <img src="http://www.yourdomain.com/images/logo-email.png" alt="Logo">
+            <img src="https://aisense-website-beta.pages.dev/images/aisense/logo/resized%20black%20logo.png" alt="Logo">
           </div>
           <div class="content">
             <p><span class="label">Name:</span> ${name}</p>
